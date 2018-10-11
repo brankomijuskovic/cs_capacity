@@ -1,0 +1,22 @@
+version: '3'
+services:
+  cs_capacity:
+    image: enemy/cs_capacity:latest
+    env_file: ./config.json
+    environment:
+      - SLEEP=3600
+      - INFLUXDB_HOST=influxdb
+  influxdb:
+    image: influxdb
+    volumes:
+      - "influxdb_vol:/var/lib/influxdb"
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - "grafana_vol:/var/lib/grafana"
+volumes:
+  grafana_vol:
+  influxdb_vol:
+
