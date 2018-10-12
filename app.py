@@ -31,8 +31,10 @@ while True:
             cs = CloudStack(endpoint=params['api_url'], key=params['api_key'], secret=params['secret_key'])
             mem = cs.listCapacity(type=0)['capacity'][0]['percentused']
             cpu = cs.listCapacity(type=1)['capacity'][0]['percentused']
-            client.write_points([{"measurement": zone+" - CPU", "fields": {"value": float(cpu)}}])
-            client.write_points([{"measurement": zone + " - MEMORY", "fields": {"value": float(mem)}}])
+            vms = cs.listVirtualMachines(state='running', listall='true')['count']
+            client.write_points([{"measurement": zone + " - CPU", "fields": {"value": float(cpu)}}])
+            client.write_points([{"measurement": zone + " - RAM", "fields": {"value": float(mem)}}])
+            client.write_points([{"measurement": zone + " - VMs running", "fields": {"value": float(vms)}}])
         except Exception as err:
             print("{} - Something went wrong. {}".format(datetime.datetime.now(), err))
             time.sleep(5)
