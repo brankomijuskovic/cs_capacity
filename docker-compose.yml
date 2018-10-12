@@ -6,16 +6,19 @@ services:
     environment:
       - SLEEP=3600
       - INFLUXDB_HOST=influxdb
+    restart: always
   influxdb:
     image: influxdb
     volumes:
       - "influxdb_vol:/var/lib/influxdb"
+    restart: always
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
     volumes:
       - "grafana_vol:/var/lib/grafana"
+    restart: always
 volumes:
   grafana_vol:
   influxdb_vol:
